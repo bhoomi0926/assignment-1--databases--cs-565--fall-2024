@@ -46,25 +46,25 @@ WHERE sl.physical_address IS NOT NULL AND sl.url_address IS NOT NULL;
 
 -- Get spices whose names are also brands. For example, Fresh Direct is a store that also makes spices.
 
-SELECT DISTINCT spice_name, brand
-FROM spices
-WHERE spices IN ( spice_name = brand
-    );
+SELECT COUNT(*) AS count_matches
+FROM spices s
+         JOIN spices b ON TRIM(LOWER(s.spice_name)) = TRIM(LOWER(b.brand))
+WHERE s.spice_name IS NOT NULL AND b.brand IS NOT NULL;
 
 
 -- Get spices whose names contain “cinnamon”.
 
 SELECT * FROM spices
-WHERE spice_name LIKE 'cinnamon';
+WHERE spice_name LIKE '%cinnamon%';
 
 
 -- Get the brand name of the Sumac spice and the name and URL of the store where it was purchased.
 
-SELECT store_name AS spice_name, si.store_name, sl.url_address
-FROM purchase_record pr
-         JOIN spices s ON pr.spice_barcode = s.barcode
-         JOIN store_info si ON pr.store_id = si.store_id
-         JOIN store_location sl ON si.store_id = sl.store_id
-WHERE store_name = 'Sumac';
+SELECT *
+FROM spices s
+         LEFT JOIN purchase_record pr ON s.barcode = pr.spice_barcode
+         LEFT JOIN store_info si ON pr.store_id = si.store_id
+         LEFT JOIN store_location sl ON si.store_id = sl.store_id
+WHERE s.spice_name = 'Sumac';
 
 
