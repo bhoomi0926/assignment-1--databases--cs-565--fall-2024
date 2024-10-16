@@ -11,3 +11,16 @@ SOURCE create-user-defined-variables.sql;
 
 SOURCE create-spices-table.sql;
 SOURCE populate-spices-table.sql;
+
+
+-- create the stores or store_info table first (before any foreign key references)
+SOURCE create-store_info-table.sql;
+SOURCE populate-store_info-table.sql;
+
+-- create the store_location-table
+SOURCE create-store_location-table.sql;
+SOURCE populate-store_location-table.sql;
+
+-- create the purchase_record table
+SOURCE create-purchase_record-table.sql;
+SOURCE populate-purchase_record-table.sql;
